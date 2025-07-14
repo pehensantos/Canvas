@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="CSS/style.css">
+	<title>Jogo</title>
+
+
+		<style>
+			#canvas{
+				border: 3px solid black;
+			}
+		</style>
+
+</head>
+<body onload="desenha()">
+
+	<canvas id="canvas" width="500px" height="500px"></canvas>
+
+
+
+	<script>
+		canvas =document.getElementById('canvas');
+		ctx=canvas.getContext('2d');
+		posX=0
+		posY=0
+		dx=1
+		dy=0
+		l_ret=50
+		a_ret=50
+		l_canv=a_canv=500
+		
+		//velocidade = 10
+
+		function desenha() {
+			ctx.clearRect(posX,posY,l_canv,a_canv);
+
+			posX += dx;
+			posY += dy;
+
+			ctx.fillStyle = 'red';
+			ctx.fillRect(posX,posY,l_ret,a_ret);
+
+			requestAnimationFrame(desenha);
+
+			//if (posX + l_ret>=l_canv || posX <= 0) {
+				//velocidade *= -1;
+			//}
+
+			if ((posX<=0) && (posY<=0)) {
+				dx=1;
+				dy=0;
+			}
+
+			if ((posX+l_ret) >= l_canv) {
+				dx=0;
+				dy=1;
+			}
+
+			if ((posY+a_ret) >= a_canv) {
+				dx=-1;
+				dy=0;
+			}
+
+			if ((posY+a_ret >= a_canv) && posX <= 0) {
+				dx=0;
+				dy=-1;
+			}
+
+		}
+	</script>
+</body>
+</html>

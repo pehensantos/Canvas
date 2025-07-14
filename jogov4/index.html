@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="CSS/style.css">
+	<title>Jogo</title>
+
+
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				height: 100%;
+				background-color: black;
+			}
+
+			#canvas{
+				display: block;
+				border: 3px solid black;
+				background-color: black;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: -7px;
+			}
+		</style>
+
+</head>
+<body>
+
+	<canvas id="canvas" width="500px" height="500px"></canvas>
+	<canvas id="canvas2" width="500px" height="500px"></canvas>
+
+
+
+	<script>
+		let posX=500
+		let posY=500
+		const l_ret=50
+		const a_ret=50
+		let x_linha = posX + l_ret / 2;
+		let y_linha = posY + a_ret / 2;
+		const velocidade = 10
+		let vida = 200
+
+		let alvoX = 1500
+		let alvoY = 500
+
+		const canvas =document.getElementById('canvas');
+  		canvas.width = window.innerWidth-50; // equivalente a 100vw
+  		canvas.height = window.innerHeight-50; // equivalente a 100vh
+		const ctx=canvas.getContext('2d');
+
+		// Calcula centro do quadrado
+		let angulo = 0; // em radianos
+		const raio = 200; // distância do centro do quadrado até a ponta da linha
+
+
+		const teclas = {
+			cima: false,
+			baixo: false,
+			esquerda: false,
+			direita: false
+		}
+		
+		window.addEventListener('keydown', (event)=>{
+			if (event.keyCode == 38) teclas.cima = true;	
+			if (event.keyCode == 40) teclas.baixo = true;	
+			if (event.keyCode == 37) teclas.esquerda = true;	
+			if (event.keyCode == 39) teclas.direita = true;
+		})
+
+		window.addEventListener('keyup', (event)=>{
+			if (event.keyCode == 38) teclas.cima = false;	
+			if (event.keyCode == 40) teclas.baixo = false;	
+			if (event.keyCode == 37) teclas.esquerda = false;	
+			if (event.keyCode == 39) teclas.direita = false;
+		})
+
+
+
+		function desenha() {
+
+			if (teclas.cima) posY -= velocidade;
+			if (teclas.cima) y_linha -= velocidade;
+
+			if (teclas.baixo) posY += velocidade;
+			if (teclas.baixo) y_linha += velocidade;
+
+			if (teclas.esquerda) posX -= velocidade;
+			if (teclas.esquerda) x_linha -= velocidade;
+
+			if (teclas.direita) posX += velocidade;
+			if (teclas.direita) x_linha += velocidade;
+
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			//Primeiro quadrado
+			ctx.fillStyle = 'red';
+			ctx.fillRect(posX,posY,l_ret,a_ret);
+
+			//Segundo quadrado
+			ctx.fillStyle = 'red';
+			ctx.fillRect(alvoX,alvoY,l_ret,a_ret);
+
+			//Barra de vida
+			ctx.fillStyle = 'green';
+			ctx.fillRect(1650,10,vida,20);
+			vida -= 1;
+			if (vida < 0) vida = 0;
+
+
+			// Calcula ponto girando ao redor
+		    const x_border = x_linha + raio * Math.cos(angulo);
+			const Y_border = y_linha + raio * Math.sin(angulo);
+
+
+			ctx.beginPath();
+			ctx.strokeStyle = 'white';
+			ctx.moveTo(x_linha,y_linha)
+			ctx.lineTo( x_border, Y_border)
+			ctx.stroke()
+			
+			// Atualiza ângulo
+			angulo += 0.50; // quanto maior, mais rápido gira
+
+			requestAnimationFrame(desenha);
+			
+		}
+		desenha();
+		
+	</script>
+</body>
+</html>
