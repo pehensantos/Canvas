@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="CSS/style.css">
+	<title>Jogo</title>
+
+
+		<style>
+			body{
+				background-color: black;
+			}
+			#canvas{
+				border: 3px solid black;
+				background-color: black;
+			}
+		</style>
+
+</head>
+<body onload="desenha()">
+
+	<canvas id="canvas" width="500px" height="500px"></canvas>
+
+	<script>
+		canvas =document.getElementById('canvas');
+		ctx=canvas.getContext('2d');
+
+		canvas.width = window.innerWidth-50; // equivalente a 100vw
+  		canvas.height = window.innerHeight-50; // equivalente a 100vh
+
+		// Função sleep simulada com Promise
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+
+		async function desenha() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				for(let i=0; i<100; i++){
+					ctx.beginPath()
+					ctx.fillStyle='rgb(0,255,0)'
+					ctx.arc(Math.random()*window.innerWidth-50,Math.random()*window.innerHeight-50,Math.random()*100,(Math.PI/180)*0,(Math.PI/180)*360, true)
+					ctx.fill()
+					await sleep(10); // espera 100ms entre cada círculo
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+				}
+			requestAnimationFrame(desenha); // loop de animação
+
+				for(let i=0; i<100; i++){
+					ctx.beginPath()
+					ctx.fillStyle='rgb(0,255,0)'
+					ctx.arc(Math.random()*window.innerWidth-50,Math.random()*window.innerHeight-50,Math.random()*100,(Math.PI/180)*0,(Math.PI/180)*360, true)
+					ctx.fill()
+					await sleep(10); // espera 100ms entre cada círculo
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+				}
+			requestAnimationFrame(desenha); // loop de animação
+
+
+		}
+	</script>
+</body>
+</html>
